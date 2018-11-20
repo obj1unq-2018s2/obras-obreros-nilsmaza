@@ -1,0 +1,41 @@
+import plantilla.*
+import obra.*
+
+
+describe "trabajo"{
+	
+	var obraA = new Casa( ladrillos = 1000
+						  ,metrosDeCanio = 400
+	 					  ,fosforos = 8000
+	 					  ,arandelas = 500
+	 					  ,registroDeObreros = [])
+	
+	const plomero1 = new Plomeros(deLicencia=false)
+	const albanil1 = new Albaniles(deLicencia=false)
+	const albanil2 = new Albaniles(deLicencia=true)
+	const gasista1 = new Gasistas(deLicencia=false)
+	const gasista2 = new Gasistas(deLicencia=false)
+	
+	const plantilla1 = new Plantilla(plantilla=[plomero1,albanil1,albanil2,gasista1,gasista2],obraAEjecutar=obraA)
+	
+	test "prueba"{
+		
+		plantilla1.hacerTrabajo()
+		assert.equals(900,obraA.ladrillos())
+		assert.equals(384,obraA.metrosDeCanio())
+		assert.equals(7960,obraA.fosforos())
+		assert.equals(470,obraA.arandelas())
+		
+		assert.equals(3,obraA.metrosCuadradosConstruidos())
+		assert.equals(2,obraA.implementosDeGasColocados())
+		assert.equals(0.5,obraA.implementosDeAguaColocados())
+		assert.equals(0,obraA.cablesElectricosColocados())
+		plantilla1.pasarPlanilla()
+		//assert.equals([],obraA.registro()) //no tiene que dar una lista vacia 
+		plantilla1.pasarObraAlTrabajador()
+		assert.equals(true,plomero1.pasoPor(obraA))
+		
+	}
+	
+	
+}
