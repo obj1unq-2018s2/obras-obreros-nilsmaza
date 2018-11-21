@@ -1,3 +1,4 @@
+import uocra.*
 import plantilla.*
 import obra.*
 
@@ -8,15 +9,27 @@ describe "trabajo"{
 						  ,metrosDeCanio = 400
 	 					  ,fosforos = 8000
 	 					  ,arandelas = 500
+	 					  ,efectivo =100000
 	 					  ,registroDeObreros = [])
 	
-	const plomero1 = new Plomeros(deLicencia=false)
-	const albanil1 = new Albaniles(deLicencia=false)
-	const albanil2 = new Albaniles(deLicencia=true)
-	const gasista1 = new Gasistas(deLicencia=false)
-	const gasista2 = new Gasistas(deLicencia=false)
+	var obraB = new Casa( ladrillos = 1000
+						  ,metrosDeCanio = 400
+	 					  ,fosforos = 8000
+	 					  ,arandelas = 500
+	 					  ,efectivo =100000
+	 					  ,registroDeObreros = [])
+	
+	const plomero1 = new Plomeros(deLicencia=false) // 3000
+	const albanil1 = new Albaniles(deLicencia=false)// 2000
+	const albanil2 = new Albaniles(deLicencia=true) // 0
+	const gasista1 = new Gasistas(deLicencia=false) // 3000
+	const gasista2 = new Gasistas(deLicencia=false) // 3000 == 11000 total
+	
+	//const plomero2 = new Plomeros(deLicencia=true) // 3000
 	
 	const plantilla1 = new Plantilla(plantilla=[plomero1,albanil1,albanil2,gasista1,gasista2],obraAEjecutar=obraA)
+
+	const plantilla2 = new Plantilla(plantilla=[plomero1,albanil1,albanil2,gasista1,gasista2],obraAEjecutar=obraB)
 	
 	test "prueba"{
 		
@@ -34,6 +47,25 @@ describe "trabajo"{
 		//assert.equals([],obraA.registro()) //no tiene que dar una lista vacia 
 		plantilla1.pasarObraAlTrabajador()
 		assert.equals(true,plomero1.pasoPor(obraA))
+	//	plantilla1.pagarleATodos()
+	//	assert.equals(89000,obraA.efectivo())
+		
+		
+		}
+		
+	test "prueba2"{
+		
+		plantilla2.hacerTrabajo()
+		albanil2.cambiarLicencia(false)
+		plomero1.cambiarLicencia(true)
+		plantilla2.hacerTrabajo()
+		assert.equals(4000,albanil1.cuantoHayQuePagarle())
+		assert.equals(2000,albanil2.cuantoHayQuePagarle())
+		assert.equals(6000,gasista1.cuantoHayQuePagarle())
+		assert.equals(6000,gasista1.cuantoHayQuePagarle())
+		assert.equals(3000,plomero1.cuantoHayQuePagarle())
+	//	assert.equals(76000,obraA.efectivo())
+		
 		
 	}
 	

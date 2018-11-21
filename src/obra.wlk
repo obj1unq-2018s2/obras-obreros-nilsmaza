@@ -1,3 +1,4 @@
+import uocra.*
 import plantilla.*
 
 class Obra {
@@ -19,29 +20,42 @@ class Obra {
 	method pisos()
 	method banios() 
 
-	method modificarLadrillos(numero) {return ladrillos -= numero }
+	method modificarLadrillos(numero) { ladrillos -= numero }
 	
-	method modificarCanios(numero){return metrosDeCanio -= numero }
+	method modificarCanios(numero){ metrosDeCanio -= numero }
 	
-	method modificarCables(numero){return metrosDeCanio -= numero }
+	method modificarCables(numero){ metrosDeCanio -= numero }
 	
-	method modificarCinta(numero){return cinta -= numero }
+	method modificarCinta(numero){cinta -= numero }
 	
-	method modificarFosforos(numero){return fosforos -= numero }
+	method modificarFosforos(numero){ fosforos -= numero }
 	
-	method modificarArandelas(numero){return arandelas -= numero }
+	method modificarArandelas(numero){ arandelas -= numero }
 	
-	method hechoHastaAhoraConstruido(numero){ return metrosCuadradosConstruidos = numero }
+	method hechoHastaAhoraConstruido(numero){ metrosCuadradosConstruidos = numero }
 	
-	method hechoHastaAhoraGas(numero){return implementosDeGasColocados = numero}
+	method hechoHastaAhoraGas(numero){ implementosDeGasColocados = numero}
 	
-	method hechoHastaAhoraAgua(numero){return implementosDeAguaColocados = numero }
+	method hechoHastaAhoraAgua(numero){ implementosDeAguaColocados = numero }
 	
-	method hechoHastaAhoraElectricidad(numero){return cablesElectricosColocados = numero }
+	method hechoHastaAhoraElectricidad(numero){ cablesElectricosColocados = numero }
 	
-	method obrerosQueTrabajaron(obreros) {return registroDeObreros = obreros.copy()}
+	method obrerosQueTrabajaron(obreros) { registroDeObreros = obreros.copy()}
 	
 	method registro() = registroDeObreros
+	
+	method habitacionesHechas() = metrosCuadradosConstruidos >= self.habitaciones() * 50
+	
+	method caniosDeAgua() = implementosDeAguaColocados >= self.banios() * 10
+	
+	method  gasColocados() = implementosDeGasColocados >= self.banios() * 8 + self.habitaciones() * 3
+		// + (3 * self.habitaciones()) / 8 +(3 * self.habitaciones()) <= self.banios() +self.habitaciones()
+	method cablesColocados() = cablesElectricosColocados >= self.habitaciones() * 50 + 100 * self.pisos()
+	
+	method terminado() = self.habitacionesHechas() and self.caniosDeAgua() and self.gasColocados() and self.cablesColocados()
+	
+	method descontarEfectivo(numero) { efectivo -= numero }
+	
 }
 
 
@@ -53,6 +67,7 @@ class Casa inherits Obra {
 	override method banios() = banios
 	
 	override method pisos() = 1
+	
 }
 
 class Edificio inherits Obra {
